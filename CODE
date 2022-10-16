@@ -1,14 +1,18 @@
-Get-ADUser -Filter * -SearchBase "OU=TestUsers,DC=zeynelugurlu,DC=com" -Properties * | Select-Object UserPrincipalName | export-csv -path C:\Users\zeynel.ugurlu\Desktop\GruptanÇıkarma.csv
-
+$OU_Dizini = Read-Host -Prompt 'OU içeriğini yazınız Örnek: "OU=TestUsers,DC=zeynelugurlu,DC=com"'
+$CSV_Dizini = Read-Host -Prompt 'CSV Export etmek istediğiniz dizini seçiniz. Örnek:C:\Users\zeynel.ugurlu\Desktop'
+$GrupAdı = Read-Host -Prompt 'Eklemek istediğiniz grup adını olduğu gibi yazınız.'
+ 
+ 
+ Get-ADUser -Filter * -SearchBase $OU_Dizini -Properties * | Select-Object UserPrincipalName | export-csv -path $CSV_Dizini\RemoveGruop.csv
 
 # Import AD Module
 Import-Module ActiveDirectory
 
 # CSV formatındaki veriyi içeri al.
-$Users = Import-Csv "C:\Users\zeynel.ugurlu\Desktop\GruptanÇıkarma.csv"
+$Users = Import-Csv $CSV_Dizini\RemoveGruop.csv"
 
 # Kullanıcıların hangi gruptan çıkarılacağını seçin.
-$Group = "Mükemmel" 
+$Group = $GrupAdı
 
 foreach ($User in $Users) {
     #  UPN değerini al
